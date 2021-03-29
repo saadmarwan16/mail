@@ -1,0 +1,2 @@
+(this.webpackJsonpfrontend=this.webpackJsonpfrontend||[]).push([[14],{329:function(n,t,e){"use strict";e.r(t);e(0);var o=e(6),s=e(4);t.default=function(){return Object(s.jsx)(o.a,{to:"/login"})}}}]);
+//# sourceMappingURL=14.bec9f54d.chunk.js.map

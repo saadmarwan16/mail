@@ -1,7 +1,6 @@
 *.sqlite3
 .env
 venv/
-frontend/
 __pycache__/
 mail/__pycache__/
 backend/accounts/__pycache__/

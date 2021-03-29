@@ -1,0 +1,2 @@
+(this.webpackJsonpfrontend=this.webpackJsonpfrontend||[]).push([[13],{326:function(t,n,e){"use strict";e.r(n);e(0);var i=e(6),c=e(37),s=e(4);n.default=Object(c.b)((function(t){return{isAuthenticated:t.auth.isAuthenticated}}))((function(t){return t.isAuthenticated?Object(s.jsx)(i.a,{to:"/inbox"}):Object(s.jsx)(i.a,{to:"/login"})}))}}]);
+//# sourceMappingURL=13.8088838f.chunk.js.map
