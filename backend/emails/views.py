@@ -1,4 +1,5 @@
 from django.core.paginator import Paginator
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
@@ -20,13 +21,13 @@ class ComposeEmailView(APIView):
 
         # Make sure the list of recipients is not empty
         if emails == [""]:
-            return Response({"error": "At least one recipient required."})
+            return Response({"error": "At least one recipient required."}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         recipients = compose.get_users(emails, UserAccount, list())
 
         # Make sure the recipients(s) is valid
         if not recipients[0]:
-            return Response({"error": f"User with email {recipients[1]} does not exist."})
+            return Response({"error": f"User with email {recipients[1]} does not exist."}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
         # Send the email and return success
         recipients = recipients[1]
@@ -52,11 +53,9 @@ class MailboxView(ListAPIView):
         page_object = paginator.get_page(number=page_number)
 
         results = {
-            "has_more": page_object.has_next(),
             "next_number": page_object.next_page_number() if page_object.has_next() else None,
             "body": page_object.object_list
         }
-
 
         return Response(results)
 
@@ -74,7 +73,7 @@ class SingleEmailView(RetrieveUpdateAPIView):
 
         # Make sure the email is available
         if not email:
-            return Response({"error": "Email not found."})
+            return Response({"error": "Email not found."}, status=status.HTTP_404_NOT_FOUND)
 
         # Mark email as read and return email contents
         self.single_mail.update_email({"read": True}, self.request.user, email_id)
@@ -90,11 +89,11 @@ class SingleEmailView(RetrieveUpdateAPIView):
 
         # Make sure the email is available
         if not email:
-            return Response({"error": "Email not found."})
+            return Response({"error": "Email not found."}, status=status.HTTP_404_NOT_FOUND)
 
         # Make sure the email update method is allowed
         if not self.single_mail.is_update_method_allowed(data):
-            return Response({"error": "The email update method is not allowed."})
+            return Response({"error": "The email update method is not allowed."}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
         # Update email and return success
         self.single_mail.update_email(data, self.request.user, email_id)
